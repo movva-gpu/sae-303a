@@ -1,9 +1,131 @@
+html {
+    font-size: 105%;
+}
+
+body {
+    text-wrap: pretty;
+}
+
 :where(h1, h2, h3, h4, h5, h6) {
     font-weight: unset; /* Resets a behaviour I don't like about */
     line-height: var(--font-lineheight-00);
+    text-wrap: balance;
 }
 
 a {
     color: inherit;
 }
 
+section {
+    padding-block: 4em;
+    padding-inline: 6em;
+    min-height: 100vh;
+    min-height: 100dvh;
+    min-height: 100svh;
+    
+    & h1 {
+        text-align: center;
+        padding-bottom: 0.33em;
+        margin-inline: auto;
+    }
+
+    & p  {
+        max-width: 63ch;
+        margin-inline: auto;
+
+        &:has(~ .graph) {
+            padding-bottom: 2em;
+        }
+    }
+
+}
+
+section.polution-tt, section.alternative {
+    min-height: 50vh;
+    min-height: 50dvh;
+    min-height: 50svh;
+}
+
+h1 {
+    font-weight: 700;
+    line-height: 1;
+    font-size: 3.33em;
+
+    & .small {
+        font-size: 0.67em;
+        line-height: 1.5;
+    }
+}
+
+body > header {
+    position: fixed;
+    inset: 0;
+    bottom: unset;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-inline: 3em;
+    font-size: 1.5em;
+    background: white;
+    min-height: 4em;
+    box-shadow: var(--shadow-2);
+    margin-bottom: 1em;
+}
+
+.icon-btn-wp {
+    & button {
+        background: none;
+    }
+}
+
+main header {
+    /* Photo de <a href="https://unsplash.com/fr/@chrisbecker?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Chris Becker</a> sur <a href="https://unsplash.com/fr/photos/pont-en-beton-pendant-lheure-doree-jYYpTndzopI?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a> */
+    background: center right / cover url('../img/bridge.jpg');
+    display: grid;
+    place-items: center end;
+    text-align: end;
+    padding-inline-end: 2em;
+    
+    color: white;
+    
+    min-height: 90vh;
+    min-height: 90dvh;
+    min-height: 90svh;
+    
+    & h1 {
+        text-shadow: 0 2.5px 5px #0008;
+    }
+}
+
+.graph {
+    aspect-ratio: 1;
+    width: 70%;
+    background-color: #0000000f;
+    margin-inline: auto;
+    outline: #f008 dashed 2px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+footer {
+    text-align: center;
+    padding-inline: 3em;
+    padding-bottom: 1em;
+
+    & a {
+        color: var(--blue-5);
+
+        &:has(svg) {
+            display: inline-flex;
+            gap: 0.33em;
+            align-items: center;
+            
+            & svg {
+                height: 1em;
+                width: 1em;
+            }
+        }
+    }
+}
