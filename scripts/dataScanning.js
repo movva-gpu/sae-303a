@@ -2,28 +2,24 @@ import GeoJSON from '../data/consolidation.geo.json' with { type: 'json' };
 import * as fs from 'fs';
 import * as path from 'path';
 
-const addMap = generateAddMap(GeoJSON);
-const totalMap = generateTotalMap(addMap);
+let addMap = generateAddMap(GeoJSON);
+let totalMap = generateTotalMap(addMap);
 
 if (!addMap) process.exit(1);
 if (!totalMap) process.exit(1);
 
+addMap = toSimpleFormat(addMap);
+totalMap = toSimpleFormat(totalMap);
+
 const addMapJSON = JSON.stringify(addMap);
 const totalMapJSON = JSON.stringify(totalMap);
 
-if (addMapJSON === totalMapJSON) {
-  console.error("No f u");
-  process.exit(1);
-}
+const addMapFilename = 'addmap.json';
+const totalMapFilename = 'totalmap.json';
 
-let dataPath = path.join(import.meta.dirname, '..', 'data');
-let addMapPath = path.join(dataPath, 'addmap.json');
-let totalMapPath = path.join(dataPath, 'totalmap.json');
-
-if (addMapPath === totalMapPath) {
-  console.error("No f u, but twice as much");
-  process.exit(1);
-}
+const dataPath = path.join(import.meta.dirname, '..', 'data');
+const addMapPath = path.join(dataPath, addMapFilename);
+const totalMapPath = path.join(dataPath, totalMapFilename);
 
 const addMapFile = fs.openSync(addMapPath, 'w');
 fs.writeSync(addMapFile, addMapJSON, 0, 'utf-8');
@@ -125,6 +121,26 @@ function generateTotalMap(addMap) {
       y++;
     }
     i++;
+  }
+
+  return result;
+}
+
+function toSimpleFormat(map) {
+  let result = {};
+  for (const year in map) {
+    const points = map[year];
+    result[year] = {
+      lon: [],
+      lat: [],
+      counts: [],
+    };
+    let count = 0;
+    for (const point of points) {
+      result[year].lon.push(point.long)
+      result[year].lat.push(point.lat)
+      result[year].counts.push(point.count)
+    }
   }
   return result;
 }
