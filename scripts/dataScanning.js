@@ -1,6 +1,17 @@
-import GeoJSON from '../data/consolidation.geo.json' with { type: 'json' };
 import * as fs from 'fs';
 import * as path from 'path';
+
+const dataPath = path.join(import.meta.dirname, '..', 'data');
+
+const GeoJSONContent = fs.readFileSync(
+  path.join(dataPath, 'consolidation.geo.json'), { encoding: 'utf-8', flag: 'r' }
+);
+const GeoJSON = JSON.parse(GeoJSONContent);
+
+if (!GeoJSON) {
+  console.error('Something went wrong when parsing consolidation.geo.json.');
+  process.exit(1);
+}
 
 let addMap = generateAddMap(GeoJSON);
 let totalMap = generateTotalMap(addMap);
@@ -17,7 +28,6 @@ const totalMapJSON = JSON.stringify(totalMap);
 const addMapFilename = 'addmap.json';
 const totalMapFilename = 'totalmap.json';
 
-const dataPath = path.join(import.meta.dirname, '..', 'data');
 const addMapPath = path.join(dataPath, addMapFilename);
 const totalMapPath = path.join(dataPath, totalMapFilename);
 
