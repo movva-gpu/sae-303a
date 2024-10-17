@@ -14,7 +14,7 @@ if (!GeoJSON) {
 }
 
 let addMap = generateAddMap(GeoJSON);
-let totalMap = generateTotalMap(addMap);
+let totalMap = generateTotalMap(generateAddMap(GeoJSON));
 
 if (!addMap) process.exit(1);
 if (!totalMap) process.exit(1);
@@ -40,7 +40,7 @@ fs.writeSync(totalMapFile, totalMapJSON, 0, 'utf-8');
 fs.closeSync(totalMapFile);
 
 function generateAddMap(geojson) {
-  const features = structuredClone(geojson.features);
+  const features = geojson.features;
   let result = {};
   if (features === undefined) {
     console.error('Error: GeoJSON doesn\'t contain a `features` field.');
@@ -90,7 +90,7 @@ function generateAddMap(geojson) {
 }
 
 function generateTotalMap(addMap) {
-  const addMapC = structuredClone(addMap);
+  const addMapC = addMap;
   let firstYear;
   let result = {};
   let i = 0;
