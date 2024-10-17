@@ -1,9 +1,9 @@
-chart1 = document.getElementById('chart1');
-chart2 = document.getElementById('chart2');
-chart3 = document.getElementById('chart3');
-chart4 = document.getElementById('chart4');
-chart5 = document.getElementById('chart5');
-chart6 = document.getElementById('chart6');
+const chart1 = document.getElementById('chart1');
+const chart2 = document.getElementById('chart2');
+const chart3 = document.getElementById('chart3');
+const chart4 = document.getElementById('chart4');
+const chart5 = document.getElementById('chart5');
+const chart6 = document.getElementById('chart6');
 
 Plotly.newPlot('chart1', [{
     x: [60, 2, 7, 2, 1, 26],
@@ -53,41 +53,6 @@ Plotly.newPlot( chart3, [{
     ],
 }]);
 
-var data = [{
-    type: 'scattergeo',
-    mode: 'markers',
-    locations: ['FRA', 'DEU', 'RUS', 'ESP'],
-    marker: {
-        size: [20, 30, 15, 10],
-        color: [10, 20, 40, 50],
-        cmin: 0,
-        cmax: 50,
-        colorscale: 'Greens',
-        colorbar: {
-            title: 'Some rate',
-            ticksuffix: '%',
-            showticksuffix: 'last'
-        },
-        line: {
-            color: 'black'
-        }
-    },
-    name: 'europe data'
-}];
-
-var layout = {
-    geo: {
-        scope: 'europe',
-        resolution: 50,
-        projection: {
-            type: 'mercator',
-            scale: 5  
-        },
-        center: { lon: 2.2137, lat: 46.2276 }
-    },
-    width: 800,
-    height: 600 
-};
 
 Plotly.newPlot('chart4',
     [
@@ -167,4 +132,3 @@ Plotly.newPlot('chart4',
       height: 600,
     },
   );
-  
