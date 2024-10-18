@@ -1,59 +1,111 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const chart1 = document.getElementById('chart1');
-  const chart2 = document.getElementById('chart2');
-  const chart3 = document.getElementById('chart3');
-  const chart4 = document.getElementById('chart4');
-  const chart5 = document.getElementById('chart5');
-  const chart6 = document.getElementById('chart6');
+  const chart1 = document.getElementById('chart-1');
+  const chart2 = document.getElementById('chart-2');
+  const chart3 = document.getElementById('chart-3');
+  const chart4 = document.getElementById('chart-4');
+  const chart5 = document.getElementById('chart-5');
 
-Plotly.newPlot('chart1', [{
-    x: [60, 2, 7, 2, 1, 26],
-    type: 'bar',
-    orientation: 'h',
-    y: [
-        'Voiture',
-        'Bus',
-        'Train',
-        'Avion',
-        'Bateau',
-        'Moto',
-        'Transport routier de marchandises'
-    ]
+  const chart2FieldSet = document.getElementById('chart-2-fs');
+  const chart3FieldSet = document.getElementById('chart-3-fs');
 
-}], {
-    xaxis: {
+  Plotly.newPlot(chart1,
+    [{
+      x: [60, 2, 7, 2, 1, 26],
+      type: 'bar',
+      orientation: 'h',
+      y: [
+          'Voiture',
+          'Bus',
+          'Train',
+          'Avion',
+          'Bateau',
+          'Moto',
+          'Transport routier de marchandises'
+      ]
+    }],
+    {
+      xaxis: {
         range: [0, 100],
         title: 'Pourcentage (%)'
-    },
-    title: 'Répartition des types de transports',
-});
-Plotly.newPlot( chart2, [{
-    values: [11, 14, 43, 13, 7, 12],
-    type: 'pie',
-    labels: [
+      },
+      title: 'Répartition des types de transports',
+  });
+
+  const chart2Values = {
+    2018: [12, 13, 41, 13, 9, 12],
+    2021: [11, 14, 43, 13, 7, 12],
+  };
+  Plotly.newPlot(chart2,
+    [{
+      values: chart2Values[2021],
+      type: 'pie',
+      labels: [
         'Autres secteurs',
         'Residentiel',
-        "transport",
+        'Transport',
         'Industrie et construction',
         'Energie hors électricité',
         'Production d\'électricité'
       ],
+    }]
+  );
+  chart2FieldSet.addEventListener('input', (e) => {
+    Plotly.animate(chart2,
+      {
+        data: [{
+          values: chart2Values[e.target.value],
+        }],
+        traces: [0],
+        layout: {},
+      },
+      {
+        transition: {
+          duration: 500,
+          easing: 'cubic-in-out',
+        },
+        frame: {
+          duration: 500,
+        }
+      }
+    );
+  });
 
-}]);
-
-Plotly.newPlot( chart3, [{
-    values: [55.2, 0.3, 40.1, 2.1, 1, 0.8, 0.5],
-    type: 'pie',
-    labels: [
-        'Diesel thermique',
-        'Diesel hybride non rechargeable',
-        'Essence',
-        'Essence hybride non recheargeable',
-        'Electricité et hydrogène',
-        'Hybride rechargeable',
-        'Bicarburation essence-gpl'
-    ],
-}]);
+  const chart3Values = {
+    2022: [55.2, 0.3, 40.1, 2.1, 1, 0.8, 0.5],
+    2023: [50.7, 0.4, 40.4, 2.9, 1.5, 1.1, 0.6],
+  };
+  Plotly.newPlot(chart3,
+    [{
+      values: chart3Values[2023],
+      type: 'pie',
+      labels: [
+            'Diesel thermique',
+            'Diesel hybride non rechargeable',
+            'Essence',
+            'Essence hybride non recheargeable',
+            'Electricité et hydrogène',
+            'Hybride rechargeable',
+            'Bicarburation essence-gpl'
+      ],
+    }]
+  );
+  chart3FieldSet.addEventListener('input', (e) => {
+    Plotly.animate(chart3,
+      {
+        data: [{
+          values: chart3Values[e.target.value],
+        }],
+        traces: [0],
+        layout: {},
+      },
+      {
+        transition: {
+          duration: 500,
+          easing: 'cubic-in-out',
+        },
+      }
+    );
+  });
 
   fetch("/data/addmap.json").then(res => {
     if (!res.ok) {
@@ -70,16 +122,13 @@ Plotly.newPlot( chart3, [{
         lat: res[2021].lat,
         marker: {
           size: res[2021].counts.map(v => Math.log2(v)),
-          // color: [10, 20, 40, 50],
-          cmin: 0,
-          cmax: 50,
-          colorscale: 'Greens',
           line: {
             color: 'black',
           },
         },
       }],
       {
+        title: 'Stations électriques contsruites en 2021',
         geo: {
           scope: 'europe',
           resolution: 50,
@@ -89,26 +138,25 @@ Plotly.newPlot( chart3, [{
           },
           center: { lon: 2.2137, lat: 46.2276 },
         },
-        width: 800,
+        width: 600,
         height: 600,
       },
     );
 
-    let count = 0;
-    document.getElementById('btn').addEventListener('mousedown', e => {
-      e.preventDefault();
-      count++;
+    document.getElementById('years').addEventListener('input', e => {
       Plotly.animate(chart4,
         {
           data: [{
-            lon: res[2021+count%4].lon,
-            lat: res[2021+count%4].lat,
+            lon: res[e.target.value].lon,
+            lat: res[e.target.value].lat,
             marker: {
-              size: res[2021+count%4].counts.map(v => Math.log2(v)),
+              size: res[e.target.value].counts.map(v => Math.log2(v)),
             }
           }],
           traces: [0],
-          layout: {},
+          layout: {
+            title: 'Stations électriques contsruites en ' + e.target.value,
+          },
         },
         {
           transition: {
@@ -119,7 +167,7 @@ Plotly.newPlot( chart3, [{
             duration: 500,
           }
         }
-      )
+      );
     });
   });
 
@@ -138,16 +186,13 @@ Plotly.newPlot( chart3, [{
         lat: res[2021].lat,
         marker: {
           size: res[2021].counts.map(v => Math.log2(v)),
-          // color: [10, 20, 40, 50],
-          cmin: 0,
-          cmax: 50,
-          colorscale: 'Greens',
           line: {
             color: 'black',
           },
         },
       }],
       {
+        title: 'Stations électriques contsruites (total) en 2021',
         geo: {
           scope: 'europe',
           resolution: 50,
@@ -157,26 +202,25 @@ Plotly.newPlot( chart3, [{
           },
           center: { lon: 2.2137, lat: 46.2276 },
         },
-        width: 800,
+        width: 600,
         height: 600,
       },
     );
 
-    let count = 0;
-    document.getElementById('btn').addEventListener('mousedown', e => {
-      e.preventDefault();
-      count++;
+    document.getElementById('years').addEventListener('input', e => {
       Plotly.animate(chart5,
         {
           data: [{
-            lon: res[2021+count%4].lon,
-            lat: res[2021+count%4].lat,
+            lon: res[e.target.value].lon,
+            lat: res[e.target.value].lat,
             marker: {
-              size: res[2021+count%4].counts.map(v => Math.log2(v)),
+              size: res[e.target.value].counts.map(v => Math.log2(v)),
             }
           }],
           traces: [0],
-          layout: {},
+          layout: {
+            title: 'Stations électriques contsruites (total) en ' + e.target.value
+          },
         },
         {
           transition: {
