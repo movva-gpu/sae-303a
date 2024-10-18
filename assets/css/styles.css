@@ -159,6 +159,8 @@ main header {
     width: fit-content;
     overflow: clip;
 
+    margin-inline: auto;
+
     & .graph {
         outline: none;
         border-radius: 0;

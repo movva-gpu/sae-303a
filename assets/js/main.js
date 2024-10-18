@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
       }],
       {
-        title: 'Stations électriques contsruites en 2021',
+        title: 'Stations électriques construites en 2021',
         geo: {
           scope: 'europe',
           resolution: 50,
@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }],
           traces: [0],
           layout: {
-            title: 'Stations électriques contsruites en ' + e.target.value,
+            title: 'Stations électriques construites en ' + e.target.value,
           },
         },
         {
@@ -192,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
       }],
       {
-        title: 'Stations électriques contsruites (total) en 2021',
+        title: 'Stations électriques construites (total) en 2021',
         geo: {
           scope: 'europe',
           resolution: 50,
@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }],
           traces: [0],
           layout: {
-            title: 'Stations électriques contsruites (total) en ' + e.target.value
+            title: 'Stations électriques construites (total) en ' + e.target.value
           },
         },
         {
