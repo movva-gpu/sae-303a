@@ -1,9 +1,10 @@
-const chart1 = document.getElementById('chart1');
-const chart2 = document.getElementById('chart2');
-const chart3 = document.getElementById('chart3');
-const chart4 = document.getElementById('chart4');
-const chart5 = document.getElementById('chart5');
-const chart6 = document.getElementById('chart6');
+document.addEventListener('DOMContentLoaded', () => {
+  const chart1 = document.getElementById('chart1');
+  const chart2 = document.getElementById('chart2');
+  const chart3 = document.getElementById('chart3');
+  const chart4 = document.getElementById('chart4');
+  const chart5 = document.getElementById('chart5');
+  const chart6 = document.getElementById('chart6');
 
 Plotly.newPlot('chart1', [{
     x: [60, 2, 7, 2, 1, 26],
@@ -54,82 +55,139 @@ Plotly.newPlot( chart3, [{
     ],
 }]);
 
+  fetch("/data/addmap.json").then(res => {
+    if (!res.ok) {
+      throw new Error('Unable to load addmap.json.');
+    }
+    return res.json()
+  }).then(res => {
+    Plotly.newPlot(chart4,
+      [{
+        name: 'Europe',
+        type: 'scattergeo',
+        mode: 'markers',
+        lon: res[2021].lon,
+        lat: res[2021].lat,
+        marker: {
+          size: res[2021].counts.map(v => Math.log2(v)),
+          // color: [10, 20, 40, 50],
+          cmin: 0,
+          cmax: 50,
+          colorscale: 'Greens',
+          line: {
+            color: 'black',
+          },
+        },
+      }],
+      {
+        geo: {
+          scope: 'europe',
+          resolution: 50,
+          projection: {
+            type: 'mercator',
+            scale: 5,
+          },
+          center: { lon: 2.2137, lat: 46.2276 },
+        },
+        width: 800,
+        height: 600,
+      },
+    );
 
-Plotly.newPlot('chart4',
-    [
-      {
+    let count = 0;
+    document.getElementById('btn').addEventListener('mousedown', e => {
+      e.preventDefault();
+      count++;
+      Plotly.animate(chart4,
+        {
+          data: [{
+            lon: res[2021+count%4].lon,
+            lat: res[2021+count%4].lat,
+            marker: {
+              size: res[2021+count%4].counts.map(v => Math.log2(v)),
+            }
+          }],
+          traces: [0],
+          layout: {},
+        },
+        {
+          transition: {
+            duration: 500,
+            easing: 'cubic-in-out',
+          },
+          frame: {
+            duration: 500,
+          }
+        }
+      )
+    });
+  });
+
+  fetch("/data/totalmap.json").then(res => {
+    if (!res.ok) {
+      throw new Error('Unable to load addmap.json.');
+    }
+    return res.json()
+  }).then(res => {
+    Plotly.newPlot(chart5,
+      [{
+        name: 'Europe',
         type: 'scattergeo',
         mode: 'markers',
-        locations: ['FRA', 'DEU', 'RUS', 'ESP'],
+        lon: res[2021].lon,
+        lat: res[2021].lat,
         marker: {
-          size: [20, 30, 15, 10],
-          color: [10, 20, 40, 50],
+          size: res[2021].counts.map(v => Math.log2(v)),
+          // color: [10, 20, 40, 50],
           cmin: 0,
           cmax: 50,
           colorscale: 'Greens',
-          colorbar: {
-            title: 'Some rate',
-            ticksuffix: '%',
-            showticksuffix: 'last',
-          },
           line: {
             color: 'black',
           },
         },
-        name: 'europe data',
-      },
-    ],
-    {
-      geo: {
-        scope: 'europe',
-        resolution: 50,
-        projection: {
-          type: 'mercator',
-          scale: 5,
-        },
-        center: { lon: 2.2137, lat: 46.2276 },
-      },
-      width: 800,
-      height: 600,
-    },
-  );
-  
-  Plotly.newPlot(
-    'chart5',
-    [
+      }],
       {
-        type: 'scattergeo',
-        mode: 'markers',
-        locations: ['FRA', 'DEU', 'RUS', 'ESP'],
-        marker: {
-          size: [20, 30, 15, 10],
-          color: [10, 20, 40, 50],
-          cmin: 0,
-          cmax: 50,
-          colorscale: 'Greens',
-          colorbar: {
-            title: 'Some rate',
-            ticksuffix: '%',
-            showticksuffix: 'last',
+        geo: {
+          scope: 'europe',
+          resolution: 50,
+          projection: {
+            type: 'mercator',
+            scale: 5,
           },
-          line: {
-            color: 'black',
+          center: { lon: 2.2137, lat: 46.2276 },
+        },
+        width: 800,
+        height: 600,
+      },
+    );
+
+    let count = 0;
+    document.getElementById('btn').addEventListener('mousedown', e => {
+      e.preventDefault();
+      count++;
+      Plotly.animate(chart5,
+        {
+          data: [{
+            lon: res[2021+count%4].lon,
+            lat: res[2021+count%4].lat,
+            marker: {
+              size: res[2021+count%4].counts.map(v => Math.log2(v)),
+            }
+          }],
+          traces: [0],
+          layout: {},
+        },
+        {
+          transition: {
+            duration: 500,
+            easing: 'cubic-in-out',
           },
-        },
-        name: 'europe data',
-      },
-    ],
-    {
-      geo: {
-        scope: 'europe',
-        resolution: 50,
-        projection: {
-          type: 'mercator',
-          scale: 5,
-        },
-        center: { lon: 2.2137, lat: 46.2276 },
-      },
-      width: 800,
-      height: 600,
-    },
-  );
+          frame: {
+            duration: 500,
+          }
+        }
+      )
+    });
+  });
+});
