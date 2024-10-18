@@ -6,51 +6,54 @@ document.addEventListener('DOMContentLoaded', () => {
   const chart5 = document.getElementById('chart5');
   const chart6 = document.getElementById('chart6');
 
-  Plotly.newPlot(chart1,
-    [{
-      type: 'bar',
-      orientation: 'h',
-      x: [90, 40, 60, 80, 75, 92, 87, 73],
-      y: [
-        'Voitures',
+Plotly.newPlot('chart1', [{
+    x: [60, 2, 7, 2, 1, 26],
+    type: 'bar',
+    orientation: 'h',
+    y: [
+        'Voiture',
         'Bus',
-        'Trains',
-        'Avions',
-        'Bateaux',
-        'Motos',
-        'Vélos',
-        'Trotinettes',
-      ],
-    }]
-  );
+        'Train',
+        'Avion',
+        'Bateau',
+        'Moto',
+        'Transport routier de marchandises'
+    ]
 
-  Plotly.newPlot(chart2,
-    [{
-      type: 'pie',
-      values: [11, 14, 43, 13, 7, 12],
-      labels: [
+}], {
+    xaxis: {
+        range: [0, 100],
+        title: 'Pourcentage (%)'
+    },
+    title: 'Répartition des types de transports',
+});
+Plotly.newPlot( chart2, [{
+    values: [11, 14, 43, 13, 7, 12],
+    type: 'pie',
+    labels: [
         'Autres secteurs',
-        'Résidentiel',
+        'Residentiel',
+        "transport",
         'Industrie et construction',
-        'Énergie hors électricité',
-        'Production d\'électricité',
+        'Energie hors électricité',
+        'Production d\'électricité'
       ],
-    }]
-  );
 
-  Plotly.newPlot(chart3,
-    [{
-      type: 'pie',
-      values: [19, 26, 55],
-      labels: [
+}]);
+
+Plotly.newPlot( chart3, [{
+    values: [55.2, 0.3, 40.1, 2.1, 1, 0.8, 0.5],
+    type: 'pie',
+    labels: [
         'Diesel thermique',
-        'Essence',
         'Diesel hybride non rechargeable',
         'Essence',
         'Essence hybride non recheargeable',
-      ],
-    }]
-  );
+        'Electricité et hydrogène',
+        'Hybride rechargeable',
+        'Bicarburation essence-gpl'
+    ],
+}]);
 
   fetch("/data/addmap.json").then(res => {
     if (!res.ok) {
