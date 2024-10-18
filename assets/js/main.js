@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
     );
   });
 
-  fetch("/data/addmap.json").then(res => {
+  fetch("data/addmap.json").then(res => {
     if (!res.ok) {
       throw new Error('Unable to load addmap.json.');
     }
@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  fetch("/data/totalmap.json").then(res => {
+  fetch("data/totalmap.json").then(res => {
     if (!res.ok) {
       throw new Error('Unable to load addmap.json.');
     }
