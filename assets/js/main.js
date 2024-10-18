@@ -24,7 +24,7 @@ Plotly.newPlot('chart1', [{
         range: [0, 100],  
         title: 'Pourcentage (%)'
     },
-    title: 'Répartition des types de transports'
+    title: 'Répartition des types de transports',
 });
 Plotly.newPlot( chart2, [{
     values: [11, 14, 43, 13, 7, 12],
@@ -32,18 +32,19 @@ Plotly.newPlot( chart2, [{
     labels: [
         'Autres secteurs', 
         'Residentiel', 
+        "transport",
         'Industrie et construction', 
         'Energie hors électricité', 
-        'Production d\'électricité'],
+        'Production d\'électricité'
+      ],
 
 }]);
 
 Plotly.newPlot( chart3, [{
-    values: [50.7, 0.4, 40.6, 3.9, 2.2, 1.5, 0.7],
+    values: [55.2, 0.3, 40.1, 2.1, 1, 0.8, 0.5],
     type: 'pie',
     labels: [
         'Diesel thermique', 
-        'Essence', 
         'Diesel hybride non rechargeable', 
         'Essence', 
         'Essence hybride non recheargeable', 
